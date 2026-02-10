@@ -1,7 +1,7 @@
 package com.grizzlyfungames.ecommersappcompose.data.api
 
 import com.grizzlyfungames.ecommersappcompose.data.api.dto.CategoryDto
-import com.grizzlyfungames.ecommersappcompose.data.api.dto.ProductsResponse
+import com.grizzlyfungames.ecommersappcompose.data.api.dto.ProductResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -12,12 +12,12 @@ interface ProductApi {
     suspend fun getProducts(
         @Query("limit") limit: Int = 20,
         @Query("skip") skip: Int = 0
-    ): ProductsResponse
+    ): ProductResponse
 
     @GET("products/search")
     suspend fun searchProducts(
         @Query("q") query: String
-    ): ProductsResponse
+    ): ProductResponse
 
     @GET("products/categories")
     suspend fun getCategories(): List<CategoryDto>
@@ -27,7 +27,7 @@ interface ProductApi {
         @Path("categoryName") categoryName: String,
         @Query("limit") limit: Int = 20,
         @Query("skip") skip: Int = 0
-    ): ProductsResponse
+    ): ProductResponse
 
     companion object {
         const val BASE_URL = "https://dummyjson.com/"
