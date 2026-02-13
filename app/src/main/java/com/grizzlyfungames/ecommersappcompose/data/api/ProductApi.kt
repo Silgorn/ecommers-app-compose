@@ -16,7 +16,9 @@ interface ProductApi {
 
     @GET("products/search")
     suspend fun searchProducts(
-        @Query("q") query: String
+        @Query("q") query: String,
+        @Query("limit") limit: Int = 20,
+        @Query("skip") skip: Int = 0
     ): ProductResponse
 
     @GET("products/categories")
