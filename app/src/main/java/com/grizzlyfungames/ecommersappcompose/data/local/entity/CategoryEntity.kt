@@ -3,7 +3,7 @@ package com.grizzlyfungames.ecommersappcompose.data.local.entity
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "categories")
+@Entity(tableName = "category")
 data class CategoryEntity(
     @PrimaryKey
     val slug: String,

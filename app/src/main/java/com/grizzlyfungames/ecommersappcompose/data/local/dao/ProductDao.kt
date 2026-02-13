@@ -21,6 +21,10 @@ interface ProductDao {
     @Query("SELECT * FROM products WHERE category = :categorySlug")
     fun getProductsByCategory(categorySlug: String): PagingSource<Int, ProductEntity>
 
+    // Оператор LIKE и конструкция || позволяют искать вхождение строки в заголовке
+    @Query("SELECT * FROM products WHERE title LIKE '%' || :query || '%' OR description LIKE '%' || :query || '%'")
+    fun searchProductsInDb(query: String): PagingSource<Int, ProductEntity>
+
     @Query("DELETE FROM products")
     suspend fun clearAll()
 }

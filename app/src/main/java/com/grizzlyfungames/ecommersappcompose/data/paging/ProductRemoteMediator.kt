@@ -15,7 +15,8 @@ import com.grizzlyfungames.ecommersappcompose.data.mapper.toEntity
 class ProductRemoteMediator(
     private val api: ProductApi,
     private val db: AppDatabase,
-    private val searchQuery: String
+    private val searchQuery: String? = null,
+    private val categoryName: String? = null
 
 ) : RemoteMediator<Int, ProductEntity>() {
     @OptIn(ExperimentalPagingApi::class)
@@ -37,12 +38,26 @@ class ProductRemoteMediator(
                     nextKey
                 }
             }
-
             val limit = state.config.pageSize
-            val response = if (searchQuery.isBlank()) {
-                api.getProducts(limit = limit, skip = skip)
-            } else {
-                api.searchProducts(query = searchQuery, limit = limit, skip = skip)
+            val response = when {
+                // Если передана категория (приоритет выше или зависит от твоей логики)
+                !categoryName.isNullOrBlank() -> {
+                    api.getProductsByCategory(
+                        categoryName = categoryName,
+                        limit = limit,
+                        skip = skip
+                    )
+                }
+
+                // Если передан поисковый запрос
+                !searchQuery.isNullOrBlank() -> {
+                    api.searchProducts(query = searchQuery, limit = limit, skip = skip)
+                }
+
+                // По умолчанию грузим всё
+                else -> {
+                    api.getProducts(limit = limit, skip = skip)
+                }
             }
 
             val products = response.results
