@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.ksp)
     kotlin("plugin.serialization") version "1.9.0"
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -64,10 +65,18 @@ dependencies {
     // Retrofit (Сеть)
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
+    implementation(libs.retrofit2.kotlinx.serialization.converter)
+
+    // OkHttp
+    implementation(libs.okhttp)
+    implementation(libs.logging.interceptor)
 
     // Room
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx) // Для Kotlin Coroutines
     ksp(libs.androidx.room.compiler) // Процессор аннотаций
 
+    // Hilt
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.android.compiler)
 }

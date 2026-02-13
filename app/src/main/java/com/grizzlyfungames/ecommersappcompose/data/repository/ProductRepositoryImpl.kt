@@ -7,8 +7,9 @@ import com.grizzlyfungames.ecommersappcompose.data.api.ProductApi
 import com.grizzlyfungames.ecommersappcompose.data.local.AppDatabase
 import com.grizzlyfungames.ecommersappcompose.data.paging.ProductRemoteMediator
 import com.grizzlyfungames.ecommersappcompose.domain.repository.ProductRepository
+import javax.inject.Inject
 
-class ProductRepositoryImpl(
+class ProductRepositoryImpl @Inject constructor(
     private val api: ProductApi,
     private val db: AppDatabase
 ) : ProductRepository {
