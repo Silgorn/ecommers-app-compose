@@ -61,8 +61,10 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+    implementation(libs.androidx.paging.compose)
+    implementation(libs.androidx.compose.material.icons.extended)
 
-    // Retrofit (Сеть)
+    // Retrofit
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
     implementation(libs.retrofit2.kotlinx.serialization.converter)
@@ -73,10 +75,16 @@ dependencies {
 
     // Room
     implementation(libs.androidx.room.runtime)
-    implementation(libs.androidx.room.ktx) // Для Kotlin Coroutines
-    ksp(libs.androidx.room.compiler) // Процессор аннотаций
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.room.paging)
+    ksp(libs.androidx.room.compiler)
 
     // Hilt
     implementation(libs.hilt.android)
+    implementation(libs.androidx.hilt.navigation.compose)
     ksp(libs.hilt.android.compiler)
+
+    // Coil
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
 }

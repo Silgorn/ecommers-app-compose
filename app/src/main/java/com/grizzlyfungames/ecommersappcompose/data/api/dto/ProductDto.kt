@@ -12,5 +12,6 @@ data class ProductDto(
     @SerialName("price") val price: Double,
     @SerialName("discountPercentage") val discountPercentage: Double,
     @SerialName("rating") val rating: Double,
-    @SerialName("stock") val stock: Int
+    @SerialName("stock") val stock: Int,
+    @SerialName("thumbnail") val thumbnail: String
 )

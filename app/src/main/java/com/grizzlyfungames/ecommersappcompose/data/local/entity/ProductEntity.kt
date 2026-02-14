@@ -14,4 +14,5 @@ data class ProductEntity(
     val discountPercentage: Double,
     val rating: Double,
     val stock: Int,
+    val thumbnail: String
 )
