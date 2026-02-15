@@ -9,10 +9,13 @@ import com.grizzlyfungames.ecommersappcompose.domain.repository.CategoryReposito
 import com.grizzlyfungames.ecommersappcompose.domain.repository.ProductRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
@@ -25,12 +28,14 @@ class ProductsViewModel @Inject constructor(
 
     private val _searchQuery = MutableStateFlow<String?>(null)
     private val _selectedCategory = MutableStateFlow<String?>(null)
+    val selectedCategory: StateFlow<String?> = _selectedCategory.asStateFlow()
+    val searchQuery: StateFlow<String?> = _searchQuery.asStateFlow()
 
     val categories: StateFlow<List<CategoryEntity>> = categoryRepository.getCategories()
         .stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    val products = combine(_searchQuery, _selectedCategory) { query, category ->
+    @OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
+    val products = combine(_searchQuery.debounce(500), _selectedCategory) { query, category ->
         Pair(query, category)
     }.flatMapLatest { (query, category) ->
         productRepository.getProducts(query, category)
@@ -39,12 +44,12 @@ class ProductsViewModel @Inject constructor(
     fun onSearchQueryChanged(query: String?) {
         _searchQuery.value = if (query.isNullOrBlank()) null else query
 
-        if (query != null) _selectedCategory.value = null
+        // if (query != null) _selectedCategory.value = null
     }
 
     fun onCategorySelected(categorySlug: String?) {
         _selectedCategory.value = categorySlug
 
-        if (categorySlug != null) _searchQuery.value = null
+        //if (categorySlug != null) _searchQuery.value = null
     }
 }

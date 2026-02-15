@@ -24,17 +24,10 @@ class ProductRepositoryImpl @Inject constructor(
             categoryName = category
         ),
         pagingSourceFactory = {
-            when {
-                // Если выбрана категория — берем только её
-                !category.isNullOrBlank() -> db.productDao().getProductsByCategory(category)
-
-                // Если есть поисковый запрос — ищем по нему
-                // Передаем query без знаков %, так как они добавлены в DAO
-                !query.isNullOrBlank() -> db.productDao().searchProductsInDb(query)
-
-                // Иначе отдаем все товары
-                else -> db.productDao().getAllProducts()
-            }
+            db.productDao().getFilteredProducts(
+                categorySlug = category,
+                query = query
+            )
         }
     ).flow
 }

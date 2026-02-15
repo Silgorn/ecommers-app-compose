@@ -40,7 +40,10 @@ class ProductRemoteMediator(
             }
             val limit = state.config.pageSize
             val response = when {
-                // Если передана категория (приоритет выше или зависит от твоей логики)
+                !searchQuery.isNullOrBlank() -> {
+                    api.searchProducts(query = searchQuery, limit = limit, skip = skip)
+                }
+
                 !categoryName.isNullOrBlank() -> {
                     api.getProductsByCategory(
                         categoryName = categoryName,
@@ -49,12 +52,6 @@ class ProductRemoteMediator(
                     )
                 }
 
-                // Если передан поисковый запрос
-                !searchQuery.isNullOrBlank() -> {
-                    api.searchProducts(query = searchQuery, limit = limit, skip = skip)
-                }
-
-                // По умолчанию грузим всё
                 else -> {
                     api.getProducts(limit = limit, skip = skip)
                 }

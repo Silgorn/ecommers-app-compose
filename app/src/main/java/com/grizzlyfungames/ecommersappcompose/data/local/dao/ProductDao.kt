@@ -13,15 +13,24 @@ interface ProductDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertProducts(products: List<ProductEntity>)
 
-    // Получение всех товаров (для Paging 3)
     @Query("SELECT * FROM products")
     fun getAllProducts(): PagingSource<Int, ProductEntity>
 
-    // Фильтрация товаров по категории
+    @Query(
+        """
+    SELECT * FROM products 
+    WHERE (:categorySlug IS NULL OR category = :categorySlug) 
+    AND (:query IS NULL OR title LIKE '%' || :query || '%')
+"""
+    )
+    fun getFilteredProducts(
+        categorySlug: String?,
+        query: String?
+    ): PagingSource<Int, ProductEntity>
+
     @Query("SELECT * FROM products WHERE category = :categorySlug")
     fun getProductsByCategory(categorySlug: String): PagingSource<Int, ProductEntity>
 
-    // Оператор LIKE и конструкция || позволяют искать вхождение строки в заголовке
     @Query("SELECT * FROM products WHERE title LIKE '%' || :query || '%' OR description LIKE '%' || :query || '%'")
     fun searchProductsInDb(query: String): PagingSource<Int, ProductEntity>
 
