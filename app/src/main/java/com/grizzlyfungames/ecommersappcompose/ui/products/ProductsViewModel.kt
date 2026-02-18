@@ -7,6 +7,7 @@ import androidx.paging.cachedIn
 import com.grizzlyfungames.ecommersappcompose.data.local.entity.CategoryEntity
 import com.grizzlyfungames.ecommersappcompose.domain.repository.CategoryRepository
 import com.grizzlyfungames.ecommersappcompose.domain.repository.ProductRepository
+import com.grizzlyfungames.ecommersappcompose.domain.util.SortOrder
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -28,17 +29,23 @@ class ProductsViewModel @Inject constructor(
 
     private val _searchQuery = MutableStateFlow<String?>(null)
     private val _selectedCategory = MutableStateFlow<String?>(null)
+    private val _sortOrder = MutableStateFlow(SortOrder.DEFAULT)
     val selectedCategory: StateFlow<String?> = _selectedCategory.asStateFlow()
     val searchQuery: StateFlow<String?> = _searchQuery.asStateFlow()
+    val sortOrder = _sortOrder.asStateFlow()
 
     val categories: StateFlow<List<CategoryEntity>> = categoryRepository.getCategories()
         .stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
 
     @OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
-    val products = combine(_searchQuery.debounce(500), _selectedCategory) { query, category ->
-        Pair(query, category)
-    }.flatMapLatest { (query, category) ->
-        productRepository.getProducts(query, category)
+    val products = combine(
+        _searchQuery.debounce(500),
+        _selectedCategory,
+        _sortOrder
+    ) { query, category, sort ->
+        Triple(query, category, sort)
+    }.flatMapLatest { (query, category, sort) ->
+        productRepository.getProducts(query, category, sort)
     }.cachedIn(viewModelScope)
 
     fun onSearchQueryChanged(query: String?) {
@@ -51,5 +58,9 @@ class ProductsViewModel @Inject constructor(
         _selectedCategory.value = categorySlug
 
         //if (categorySlug != null) _searchQuery.value = null
+    }
+
+    fun onSortOrderChanged(newOrder: SortOrder) {
+        _sortOrder.value = newOrder
     }
 }

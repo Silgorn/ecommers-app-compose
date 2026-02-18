@@ -7,6 +7,7 @@ import com.grizzlyfungames.ecommersappcompose.data.api.ProductApi
 import com.grizzlyfungames.ecommersappcompose.data.local.AppDatabase
 import com.grizzlyfungames.ecommersappcompose.data.paging.ProductRemoteMediator
 import com.grizzlyfungames.ecommersappcompose.domain.repository.ProductRepository
+import com.grizzlyfungames.ecommersappcompose.domain.util.SortOrder
 import javax.inject.Inject
 
 class ProductRepositoryImpl @Inject constructor(
@@ -15,7 +16,7 @@ class ProductRepositoryImpl @Inject constructor(
 ) : ProductRepository {
 
     @OptIn(ExperimentalPagingApi::class)
-    override fun getProducts(query: String?, category: String?) = Pager(
+    override fun getProducts(query: String?, category: String?, sort: SortOrder) = Pager(
         config = PagingConfig(pageSize = 20),
         remoteMediator = ProductRemoteMediator(
             api,
@@ -24,10 +25,11 @@ class ProductRepositoryImpl @Inject constructor(
             categoryName = category
         ),
         pagingSourceFactory = {
-            db.productDao().getFilteredProducts(
-                categorySlug = category,
-                query = query
-            )
+            when (sort) {
+                SortOrder.DEFAULT -> db.productDao().getProductsDefault(category, query)
+                SortOrder.LOW_PRICE -> db.productDao().getProductsPriceAsc(category, query)
+                SortOrder.HIGH_PRICE -> db.productDao().getProductsPriceDesc(category, query)
+            }
         }
     ).flow
 }

@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material3.FilterChip
@@ -25,7 +26,8 @@ fun CategoryChips(
             FilterChip(
                 selected = selectedCategory == null,
                 onClick = { onCategoryClick(null) },
-                label = { Text("Все") },
+                label = { Text("All") },
+                shape = CircleShape,
                 leadingIcon = if (selectedCategory == null) {
                     {
                         Icon(
@@ -42,6 +44,7 @@ fun CategoryChips(
                 selected = category.slug == selectedCategory,
                 onClick = { onCategoryClick(category.slug) },
                 label = { Text(category.name) },
+                shape = CircleShape,
                 leadingIcon = if (category.slug == selectedCategory) {
                     {
                         Icon(

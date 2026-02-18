@@ -34,7 +34,8 @@ fun ProductGrid(
     ) {
         items(
             count = products.itemCount,
-            key = products.itemKey { it.id }
+            key = products.itemKey { it.id },
+            contentType = { "product" }
         ) { index ->
             val product = products[index]
             if (product != null) {

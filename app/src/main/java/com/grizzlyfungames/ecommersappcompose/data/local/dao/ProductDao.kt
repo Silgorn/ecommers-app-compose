@@ -34,6 +34,39 @@ interface ProductDao {
     @Query("SELECT * FROM products WHERE title LIKE '%' || :query || '%' OR description LIKE '%' || :query || '%'")
     fun searchProductsInDb(query: String): PagingSource<Int, ProductEntity>
 
+    @Query(
+        """
+    SELECT * FROM products 
+    WHERE (:categorySlug IS NULL OR category = :categorySlug) 
+    AND (:query IS NULL OR title LIKE '%' || :query || '%')
+    ORDER BY price ASC
+"""
+    )
+    fun getProductsPriceAsc(categorySlug: String?, query: String?): PagingSource<Int, ProductEntity>
+
+    @Query(
+        """
+    SELECT * FROM products 
+    WHERE (:categorySlug IS NULL OR category = :categorySlug) 
+    AND (:query IS NULL OR title LIKE '%' || :query || '%')
+    ORDER BY price DESC
+"""
+    )
+    fun getProductsPriceDesc(
+        categorySlug: String?,
+        query: String?
+    ): PagingSource<Int, ProductEntity>
+
+    @Query(
+        """
+    SELECT * FROM products 
+    WHERE (:categorySlug IS NULL OR category = :categorySlug) 
+    AND (:query IS NULL OR title LIKE '%' || :query || '%')
+    ORDER BY id ASC
+"""
+    )
+    fun getProductsDefault(categorySlug: String?, query: String?): PagingSource<Int, ProductEntity>
+
     @Query("DELETE FROM products")
     suspend fun clearAll()
 }
