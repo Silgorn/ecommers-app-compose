@@ -30,7 +30,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.grizzlyfungames.ecommersappcompose.data.local.entity.ProductEntity
@@ -122,26 +121,26 @@ fun ProductItem(
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun ProductItemPreview() {
-    val mockProduct = ProductEntity(
-        id = 1,
-        title = "iPhone 13 Pro",
-        description = "Powerful smartphone",
-        price = 1099.99,
-        discountPercentage = 9.37,
-        thumbnail = "https://cdn.dummyjson.com",
-        category = "smartphones",
-        rating = 4.12,
-        stock = 56
-    )
-
-    MaterialTheme {
-        // Box(modifier = Modifier.width(300.dp)) {
-        ProductItem(
-            product = mockProduct,
-            onClick = { }
-        )
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun ProductItemPreview() {
+//    val mockProduct = ProductEntity(
+//        id = 1,
+//        title = "iPhone 13 Pro",
+//        description = "Powerful smartphone",
+//        price = 1099.99,
+//        discountPercentage = 9.37,
+//        thumbnail = "https://cdn.dummyjson.com",
+//        category = "smartphones",
+//        rating = 4.12,
+//        stock = 56,
+//    )
+//
+//    MaterialTheme {
+//        // Box(modifier = Modifier.width(300.dp)) {
+//        ProductItem(
+//            product = mockProduct,
+//            onClick = { }
+//        )
+//    }
+//}

@@ -14,6 +14,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.grizzlyfungames.ecommersappcompose.ui.products.components.CategoryChips
@@ -25,7 +26,7 @@ import kotlinx.coroutines.yield
 
 @Composable
 fun ProductScreen(
-    viewModel: ProductsViewModel,
+    viewModel: ProductsViewModel = hiltViewModel(),
     onProductClick: (Int) -> Unit
 ) {
     val products = viewModel.products.collectAsLazyPagingItems()

@@ -13,6 +13,7 @@ fun ProductDto.toEntity(): ProductEntity {
         discountPercentage = discountPercentage,
         rating = rating,
         stock = stock,
-        thumbnail = thumbnail
+        thumbnail = thumbnail,
+        images = images
     )
 }

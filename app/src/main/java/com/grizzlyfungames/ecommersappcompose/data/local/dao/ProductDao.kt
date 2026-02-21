@@ -34,6 +34,9 @@ interface ProductDao {
     @Query("SELECT * FROM products WHERE title LIKE '%' || :query || '%' OR description LIKE '%' || :query || '%'")
     fun searchProductsInDb(query: String): PagingSource<Int, ProductEntity>
 
+    @Query("SELECT * FROM products WHERE id = :id")
+    suspend fun getProductById(id: Int): ProductEntity?
+
     @Query(
         """
     SELECT * FROM products 
