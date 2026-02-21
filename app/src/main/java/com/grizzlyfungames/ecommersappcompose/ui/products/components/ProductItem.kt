@@ -46,6 +46,9 @@ fun ProductItem(
             .fillMaxWidth()
             .padding(4.dp)
             .clickable { onClick() },
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceVariant
+        ),
         shape = RoundedCornerShape(12.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
@@ -97,13 +100,12 @@ fun ProductItem(
                     Text(
                         text = "$${product.price}",
                         style = MaterialTheme.typography.bodyLarge,
-                        color = MaterialTheme.colorScheme.primary,
                         fontWeight = FontWeight.Bold,
                     )
                     if (product.discountPercentage > 0) {
                         Spacer(modifier = Modifier.width(8.dp))
                         Surface(
-                            color = Color(0xFFE53935),
+                            color = MaterialTheme.colorScheme.secondary,
                             shape = RoundedCornerShape(4.dp)
                         ) {
                             Text(
