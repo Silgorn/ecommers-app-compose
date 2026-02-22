@@ -18,4 +18,4 @@ val Red = Color(0xFFE53935)
 
 val AppLightGreen = Color(0xFFD4E700)
 
-val AppDarkGreen = Color(0xFF7B9315)
+val AppDarkGreen = Color(0xFF485704)
