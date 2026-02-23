@@ -13,63 +13,54 @@ interface ProductDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertProducts(products: List<ProductEntity>)
 
-    @Query("SELECT * FROM products")
-    fun getAllProducts(): PagingSource<Int, ProductEntity>
-
-    @Query(
-        """
-    SELECT * FROM products 
-    WHERE (:categorySlug IS NULL OR category = :categorySlug) 
-    AND (:query IS NULL OR title LIKE '%' || :query || '%')
-"""
-    )
-    fun getFilteredProducts(
-        categorySlug: String?,
-        query: String?
-    ): PagingSource<Int, ProductEntity>
-
-    @Query("SELECT * FROM products WHERE category = :categorySlug")
-    fun getProductsByCategory(categorySlug: String): PagingSource<Int, ProductEntity>
-
-    @Query("SELECT * FROM products WHERE title LIKE '%' || :query || '%' OR description LIKE '%' || :query || '%'")
-    fun searchProductsInDb(query: String): PagingSource<Int, ProductEntity>
-
     @Query("SELECT * FROM products WHERE id = :id")
     suspend fun getProductById(id: Int): ProductEntity?
 
-    @Query(
-        """
-    SELECT * FROM products 
-    WHERE (:categorySlug IS NULL OR category = :categorySlug) 
-    AND (:query IS NULL OR title LIKE '%' || :query || '%')
-    ORDER BY price ASC
-"""
-    )
-    fun getProductsPriceAsc(categorySlug: String?, query: String?): PagingSource<Int, ProductEntity>
-
-    @Query(
-        """
-    SELECT * FROM products 
-    WHERE (:categorySlug IS NULL OR category = :categorySlug) 
-    AND (:query IS NULL OR title LIKE '%' || :query || '%')
-    ORDER BY price DESC
-"""
-    )
-    fun getProductsPriceDesc(
-        categorySlug: String?,
-        query: String?
-    ): PagingSource<Int, ProductEntity>
-
-    @Query(
-        """
-    SELECT * FROM products 
-    WHERE (:categorySlug IS NULL OR category = :categorySlug) 
-    AND (:query IS NULL OR title LIKE '%' || :query || '%')
-    ORDER BY id ASC
-"""
-    )
-    fun getProductsDefault(categorySlug: String?, query: String?): PagingSource<Int, ProductEntity>
-
     @Query("DELETE FROM products")
     suspend fun clearAll()
+
+    @Query(
+        """
+        SELECT products.*, (favorites.id IS NOT NULL) AS isFavorite 
+        FROM products 
+        LEFT JOIN favorites ON products.id = favorites.id
+        WHERE (:category IS NULL OR products.category = :category) 
+        AND (:query IS NULL OR products.title LIKE '%' || :query || '%')
+        ORDER BY products.id ASC
+    """
+    )
+    fun getProductsDefault(category: String?, query: String?): PagingSource<Int, ProductEntity>
+
+    @Query(
+        """
+        SELECT products.*, (favorites.id IS NOT NULL) AS isFavorite 
+        FROM products 
+        LEFT JOIN favorites ON products.id = favorites.id
+        WHERE (:category IS NULL OR products.category = :category) 
+        AND (:query IS NULL OR products.title LIKE '%' || :query || '%')
+        ORDER BY products.price ASC
+    """
+    )
+    fun getProductsPriceAsc(category: String?, query: String?): PagingSource<Int, ProductEntity>
+
+    @Query(
+        """
+        SELECT products.*, (favorites.id IS NOT NULL) AS isFavorite 
+        FROM products 
+        LEFT JOIN favorites ON products.id = favorites.id
+        WHERE (:category IS NULL OR products.category = :category) 
+        AND (:query IS NULL OR products.title LIKE '%' || :query || '%')
+        ORDER BY products.price DESC
+    """
+    )
+    fun getProductsPriceDesc(category: String?, query: String?): PagingSource<Int, ProductEntity>
+
+    @Query(
+        """
+    SELECT products.*, 1 AS isFavorite 
+    FROM products 
+    INNER JOIN favorites ON products.id = favorites.id
+"""
+    )
+    fun getFavoriteProductsSource(): PagingSource<Int, ProductEntity>
 }

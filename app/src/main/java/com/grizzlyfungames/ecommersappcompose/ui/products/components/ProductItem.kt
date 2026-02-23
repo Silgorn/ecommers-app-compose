@@ -37,8 +37,8 @@ import com.grizzlyfungames.ecommersappcompose.data.local.entity.ProductEntity
 @Composable
 fun ProductItem(
     product: ProductEntity,
-    isFavorite: Boolean = false,
-    onFavoriteClick: () -> Unit = {},
+    //  isFavorite: Boolean = false,
+    onFavoriteClick: () -> Unit,
     onClick: () -> Unit
 ) {
     Card(
@@ -63,8 +63,7 @@ fun ProductItem(
                         .padding(8.dp),
                     contentScale = ContentScale.Crop
                 )
-
-
+                val isFavorite = product.isFavorite
                 IconButton(
                     onClick = onFavoriteClick,
                     modifier = Modifier

@@ -34,4 +34,7 @@ object DatabaseModule {
 
     @Provides
     fun provideRemoteKeysDao(db: AppDatabase) = db.remoteKeysDao()
+
+    @Provides
+    fun provideFavoritesDao(db: AppDatabase) = db.favoritesDao()
 }

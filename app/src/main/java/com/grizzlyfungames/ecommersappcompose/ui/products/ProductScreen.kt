@@ -35,6 +35,7 @@ fun ProductScreen(
     val currentSort by viewModel.sortOrder.collectAsState()
     val gridState = rememberLazyGridState()
 
+
     LaunchedEffect(selectedCategory, searchQuery, currentSort) {
         snapshotFlow { products.loadState.refresh }
             .filter { it is LoadState.NotLoading }
@@ -69,7 +70,12 @@ fun ProductScreen(
             ProductGrid(
                 products = products,
                 gridState = gridState,
-                onProductClick = onProductClick
+                onProductClick = onProductClick,
+                onFavoriteToggle = { products ->
+                    viewModel.onFavoriteToggle(
+                        product = products
+                    )
+                }
             )
         }
     }

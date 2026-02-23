@@ -11,4 +11,6 @@ interface ProductRepository {
         category: String?,
         sort: SortOrder
     ): Flow<PagingData<ProductEntity>>
+
+    fun getFavoriteProductsFlow(): Flow<PagingData<ProductEntity>>
 }

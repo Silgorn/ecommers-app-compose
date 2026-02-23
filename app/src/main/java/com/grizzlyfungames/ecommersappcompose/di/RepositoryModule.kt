@@ -1,8 +1,10 @@
 package com.grizzlyfungames.ecommersappcompose.di
 
 import com.grizzlyfungames.ecommersappcompose.data.repository.CategoryRepositoryImpl
+import com.grizzlyfungames.ecommersappcompose.data.repository.FavoritesRepositoryImpl
 import com.grizzlyfungames.ecommersappcompose.data.repository.ProductRepositoryImpl
 import com.grizzlyfungames.ecommersappcompose.domain.repository.CategoryRepository
+import com.grizzlyfungames.ecommersappcompose.domain.repository.FavoritesRepository
 import com.grizzlyfungames.ecommersappcompose.domain.repository.ProductRepository
 import dagger.Binds
 import dagger.Module
@@ -25,4 +27,10 @@ abstract class RepositoryModule {
     abstract fun bindCategoryRepository(
         categoryRepositoryImpl: CategoryRepositoryImpl
     ): CategoryRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindFavoritesRepository(
+        favoritesRepositoryImpl: FavoritesRepositoryImpl
+    ): FavoritesRepository
 }

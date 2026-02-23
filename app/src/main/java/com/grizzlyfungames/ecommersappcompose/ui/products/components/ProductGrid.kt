@@ -21,7 +21,8 @@ import com.grizzlyfungames.ecommersappcompose.data.local.entity.ProductEntity
 fun ProductGrid(
     products: LazyPagingItems<ProductEntity>,
     gridState: LazyGridState,
-    onProductClick: (Int) -> Unit
+    onProductClick: (Int) -> Unit,
+    onFavoriteToggle: (ProductEntity) -> Unit
 ) {
 
     LazyVerticalGrid(
@@ -41,8 +42,12 @@ fun ProductGrid(
             if (product != null) {
                 ProductItem(
                     product = product,
-                    onClick = { onProductClick(product.id) }
-                )
+                    onClick = { onProductClick(product.id) },
+                    onFavoriteClick = {
+                        onFavoriteToggle(product)
+                    },
+
+                    )
             }
         }
 

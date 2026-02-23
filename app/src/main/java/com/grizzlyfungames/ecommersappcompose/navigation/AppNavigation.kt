@@ -9,12 +9,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.grizzlyfungames.ecommersappcompose.ui.details.ProductDetailScreen
+import com.grizzlyfungames.ecommersappcompose.ui.favorites.FavoriteScreen
+import com.grizzlyfungames.ecommersappcompose.ui.favorites.FavoritesViewModel
 import com.grizzlyfungames.ecommersappcompose.ui.products.ProductScreen
 
 @Composable
@@ -49,13 +52,13 @@ fun AppNavigation(navController: NavHostController, paddingValues: PaddingValues
             )
         }
         composable("favorites") {
-            Box(Modifier.fillMaxSize()) {
-                Text(
-                    "Favorites", Modifier.align(
-                        Alignment.Center
-                    )
-                )
-            }
+            val favoriteViewModel: FavoritesViewModel = hiltViewModel()
+            FavoriteScreen(
+                viewModel = favoriteViewModel,
+                onProductClick = { productId ->
+                    navController.navigate("product_detail/$productId")
+                }
+            )
         }
         composable("cart") {
             Box(Modifier.fillMaxSize()) {

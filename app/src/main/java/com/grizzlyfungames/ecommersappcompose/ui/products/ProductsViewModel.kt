@@ -3,9 +3,13 @@ package com.grizzlyfungames.ecommersappcompose.ui.products
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import androidx.paging.map
 import com.grizzlyfungames.ecommersappcompose.data.local.entity.CategoryEntity
+import com.grizzlyfungames.ecommersappcompose.data.local.entity.ProductEntity
 import com.grizzlyfungames.ecommersappcompose.domain.repository.CategoryRepository
+import com.grizzlyfungames.ecommersappcompose.domain.repository.FavoritesRepository
 import com.grizzlyfungames.ecommersappcompose.domain.repository.ProductRepository
 import com.grizzlyfungames.ecommersappcompose.domain.util.SortOrder
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,13 +22,16 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class ProductsViewModel @Inject constructor(
     private val productRepository: ProductRepository,
     private val categoryRepository: CategoryRepository,
+    private val favoritesRepository: FavoritesRepository,
 ) : ViewModel() {
 
     private val _searchQuery = MutableStateFlow<String?>(null)
@@ -41,12 +48,22 @@ class ProductsViewModel @Inject constructor(
     val products = combine(
         _searchQuery.debounce(500),
         _selectedCategory,
-        _sortOrder
-    ) { query, category, sort ->
-        Triple(query, category, sort)
-    }.flatMapLatest { (query, category, sort) ->
+        _sortOrder,
+        favoritesRepository.getFavoriteIds()
+    ) { query: String?, category: String?, sort: SortOrder, favIds: List<Int> ->
+        // Создаем структуру для передачи параметров
+        val favSet = favIds.toSet()
+
+        // Возвращаем поток PagingData
         productRepository.getProducts(query, category, sort)
-    }.cachedIn(viewModelScope)
+            .map { pagingData: PagingData<ProductEntity> ->
+                pagingData.map { product: ProductEntity ->
+                    // Явно копируем состояние
+                    product.copy(isFavorite = favSet.contains(product.id))
+                }
+            }
+    }.flatMapLatest { it }
+        .cachedIn(viewModelScope)
 
     fun onSearchQueryChanged(query: String?) {
         _searchQuery.value = if (query.isNullOrBlank()) null else query
@@ -62,5 +79,13 @@ class ProductsViewModel @Inject constructor(
 
     fun onSortOrderChanged(newOrder: SortOrder) {
         _sortOrder.value = newOrder
+    }
+
+    fun onFavoriteToggle(product: ProductEntity) {
+        viewModelScope.launch {
+            // Вызываем метод репозитория напрямую
+            // isCurrentlyFavorite берем из самого объекта product
+            favoritesRepository.toggleFavorite(product, product.isFavorite)
+        }
     }
 }
