@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -22,7 +23,7 @@ fun ProductDetailScreen(
     onBackClick: () -> Unit,
     viewModel: ProductDetailViewModel = hiltViewModel()
 ) {
-    val product by viewModel.product.collectAsState()
+    val product by viewModel.productState.collectAsState()
 
     Scaffold(
         bottomBar = {
@@ -31,7 +32,7 @@ fun ProductDetailScreen(
             }
         }
     ) { padding ->
-        product?.let { entity ->
+        product?.let { currentProduct ->
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -39,21 +40,21 @@ fun ProductDetailScreen(
                     .verticalScroll(rememberScrollState())
                     .background(Color.White)
             ) {
-                // 1. Блок с картинками и верхними кнопками
                 ProductImageCarousel(
-                    images = entity.images,
+                    images = currentProduct.images,
                     onBackClick = onBackClick,
-                    onFavoriteClick = { /* TODO */ },
+                    isFavorite = currentProduct.isFavorite,
+                    onFavoriteClick = {
+                        viewModel.toggleFavorite(currentProduct)
+                    },
                     onShareClick = { /* TODO */ }
                 )
-
-                // 2. Блок с информацией о товаре
                 ProductDetailsSection(
-                    title = entity.title,
-                    rating = entity.rating,
-                    price = entity.price,
-                    discountPercentage = entity.discountPercentage,
-                    description = entity.description
+                    title = currentProduct.title,
+                    rating = currentProduct.rating,
+                    price = currentProduct.price,
+                    discountPercentage = currentProduct.discountPercentage,
+                    description = currentProduct.description
                 )
             }
         }

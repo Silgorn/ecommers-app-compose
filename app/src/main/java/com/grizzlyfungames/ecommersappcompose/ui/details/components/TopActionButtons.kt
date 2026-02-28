@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Icon
@@ -22,6 +23,7 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun TopActionButtons(
+    isFavorite: Boolean,
     onBackClick: () -> Unit,
     onFavoriteClick: () -> Unit,
     onShareClick: () -> Unit,
@@ -50,7 +52,7 @@ fun TopActionButtons(
                     .size(40.dp)
             ) {
                 Icon(
-                    Icons.Default.FavoriteBorder,
+                    if (isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
                     contentDescription = "Favorite",
                     tint = Color.Red
                 )

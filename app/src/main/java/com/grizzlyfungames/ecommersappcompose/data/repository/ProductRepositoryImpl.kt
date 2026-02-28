@@ -15,8 +15,9 @@ import javax.inject.Inject
 
 class ProductRepositoryImpl @Inject constructor(
     private val api: ProductApi,
-    private val db: AppDatabase
-) : ProductRepository {
+    private val db: AppDatabase,
+
+    ) : ProductRepository {
 
     @OptIn(ExperimentalPagingApi::class)
     override fun getProducts(query: String?, category: String?, sort: SortOrder) = Pager(
@@ -41,5 +42,9 @@ class ProductRepositoryImpl @Inject constructor(
             config = PagingConfig(pageSize = 20),
             pagingSourceFactory = { db.productDao().getFavoriteProductsSource() }
         ).flow
+    }
+
+    override fun getProductByIdFlow(id: Int): Flow<ProductEntity?> {
+        return db.productDao().getProductByIdFlow(id)
     }
 }

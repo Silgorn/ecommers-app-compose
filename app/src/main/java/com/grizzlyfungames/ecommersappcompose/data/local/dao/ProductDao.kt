@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.grizzlyfungames.ecommersappcompose.data.local.entity.ProductEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ProductDao {
@@ -63,4 +64,14 @@ interface ProductDao {
 """
     )
     fun getFavoriteProductsSource(): PagingSource<Int, ProductEntity>
+
+    @Query(
+        """
+    SELECT *, 
+    (SELECT EXISTS(SELECT 1 FROM favorites WHERE favorites.id = products.id)) AS isFavorite
+    FROM products 
+    WHERE id = :id
+"""
+    )
+    fun getProductByIdFlow(id: Int): Flow<ProductEntity?>
 }

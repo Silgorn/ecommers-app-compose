@@ -19,6 +19,7 @@ import coil3.compose.AsyncImage
 @Composable
 fun ProductImageCarousel(
     images: List<String>,
+    isFavorite: Boolean,
     onBackClick: () -> Unit,
     onFavoriteClick: () -> Unit,
     onShareClick: () -> Unit,
@@ -47,6 +48,7 @@ fun ProductImageCarousel(
         }
 
         TopActionButtons(
+            isFavorite = isFavorite,
             onBackClick = onBackClick,
             onFavoriteClick = onFavoriteClick,
             onShareClick = onShareClick,

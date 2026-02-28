@@ -13,4 +13,6 @@ interface ProductRepository {
     ): Flow<PagingData<ProductEntity>>
 
     fun getFavoriteProductsFlow(): Flow<PagingData<ProductEntity>>
+
+    fun getProductByIdFlow(id: Int): Flow<ProductEntity?>
 }

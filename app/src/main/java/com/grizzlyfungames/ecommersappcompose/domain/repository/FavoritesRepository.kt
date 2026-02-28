@@ -10,4 +10,6 @@ interface FavoritesRepository {
     fun getAllFavorites(): Flow<List<FavoritesEntity>>
 
     fun getFavoriteIds(): Flow<List<Int>>
+
+    fun isFavoriteFlow(productId: Int): Flow<Boolean>
 }

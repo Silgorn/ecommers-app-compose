@@ -33,4 +33,8 @@ class FavoritesRepositoryImpl @Inject constructor(
     override fun getFavoriteIds(): Flow<List<Int>> {
         return favoritesDao.getFavoriteIds()
     }
+
+    override fun isFavoriteFlow(productId: Int): Flow<Boolean> {
+        return favoritesDao.isFavoriteFlow(productId)
+    }
 }
