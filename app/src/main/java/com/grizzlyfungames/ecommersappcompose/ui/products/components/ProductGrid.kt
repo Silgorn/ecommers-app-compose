@@ -31,11 +31,12 @@ fun ProductGrid(
     onFavoriteToggle: (ProductEntity) -> Unit
 ) {
     val pullToRefreshState = rememberPullToRefreshState()
-    val isRefreshing = products.loadState.refresh is LoadState.Loading
+
+    val isLoading = products.loadState.refresh is LoadState.Loading
 
     PullToRefreshBox(
         state = pullToRefreshState,
-        isRefreshing = isRefreshing,
+        isRefreshing = isLoading && products.itemCount > 0 && pullToRefreshState.distanceFraction > 0f,
         onRefresh = { products.refresh() },
         modifier = Modifier.fillMaxSize()
     ) {
@@ -44,9 +45,9 @@ fun ProductGrid(
             state = gridState,
             contentPadding = PaddingValues(8.dp),
         ) {
-            if (isRefreshing && products.itemCount == 0) {
+            if (isLoading && products.itemCount == 0) {
                 items(10) { ProductShimmerItem() }
-            } else if (products.itemCount > 0) {
+            } else {
                 items(
                     count = products.itemCount,
                     key = products.itemKey { it.id }
@@ -62,7 +63,6 @@ fun ProductGrid(
             }
 
             val loadState = products.loadState
-
             when {
                 loadState.refresh is LoadState.NotLoading && products.itemCount == 0 -> {
                     item(span = { GridItemSpan(maxLineSpan) }) {
