@@ -19,6 +19,7 @@ import com.grizzlyfungames.ecommersappcompose.ui.details.ProductDetailScreen
 import com.grizzlyfungames.ecommersappcompose.ui.favorites.FavoriteScreen
 import com.grizzlyfungames.ecommersappcompose.ui.favorites.FavoritesViewModel
 import com.grizzlyfungames.ecommersappcompose.ui.products.ProductScreen
+import com.grizzlyfungames.ecommersappcompose.ui.profile.ProfileScreen
 
 @Composable
 fun AppNavigation(navController: NavHostController, paddingValues: PaddingValues) {
@@ -69,12 +70,7 @@ fun AppNavigation(navController: NavHostController, paddingValues: PaddingValues
             }
         }
         composable("profile") {
-            Box(Modifier.fillMaxSize()) {
-                Text(
-                    "Profile",
-                    Modifier.align(Alignment.Center)
-                )
-            }
+            ProfileScreen()
         }
     }
 }
