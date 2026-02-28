@@ -89,6 +89,7 @@ dependencies {
     ksp(libs.hilt.android.compiler)
 
     // Coil
+    implementation(libs.coil)
     implementation(libs.coil.compose)
     implementation(libs.coil.network.okhttp)
 }

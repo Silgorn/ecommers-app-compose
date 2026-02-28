@@ -1,6 +1,7 @@
 [versions]
 agp = "8.13.2"
 coilNetworkOkhttp = "3.0.4"
+coilVersion = "3.0.0"
 converterGson = "3.0.0"
 hiltAndroid = "2.57.1"
 hiltNavigationCompose = "1.2.0"
@@ -39,6 +40,7 @@ androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref =
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomVersion" }
 androidx-room-paging = { module = "androidx.room:room-paging" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomVersion" }
+coil = { module = "io.coil-kt.coil3:coil", version.ref = "coilVersion" }
 coil-network-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coilNetworkOkhttp" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }

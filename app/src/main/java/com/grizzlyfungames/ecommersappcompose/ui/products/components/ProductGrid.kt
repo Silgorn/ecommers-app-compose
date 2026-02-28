@@ -5,11 +5,14 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
@@ -43,20 +46,47 @@ fun ProductGrid(
                 ProductItem(
                     product = product,
                     onClick = { onProductClick(product.id) },
-                    onFavoriteClick = {
-                        onFavoriteToggle(product)
-                    },
-
+                    onFavoriteClick = { onFavoriteToggle(product) }
+                )
+            }
+        }
+        when (products.loadState.refresh) {
+            is LoadState.Loading -> {
+                item(span = { GridItemSpan(maxLineSpan) }) {
+                    CircularProgressIndicator(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp)
+                            .wrapContentWidth(Alignment.CenterHorizontally)
                     )
+                }
+            }
+
+            is LoadState.Error -> {
+                item(span = { GridItemSpan(maxLineSpan) }) {
+                    ErrorItem(
+                        message = "Loading error",
+                        onRetry = { products.retry() }
+                    )
+                }
+            }
+
+            is LoadState.NotLoading -> {
+                if (products.itemCount == 0) {
+                    item(span = { GridItemSpan(maxLineSpan) }) {
+                        EmptyStateItem(message = "Products not found")
+                    }
+                }
             }
         }
 
         if (products.loadState.append is LoadState.Loading) {
-            item {
+            item(span = { GridItemSpan(maxLineSpan) }) {
                 CircularProgressIndicator(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(16.dp)
+                        .wrapContentWidth(Alignment.CenterHorizontally)
                 )
             }
         }
