@@ -1,5 +1,9 @@
 package com.grizzlyfungames.ecommersappcompose.navigation
 
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -31,7 +35,13 @@ fun AppNavigation(navController: NavHostController, paddingValues: PaddingValues
         modifier = Modifier.padding(
             bottom = paddingValues.calculateBottomPadding() + 16.dp,
             top = paddingValues.calculateTopPadding()
-        )
+        ),
+        enterTransition = {
+            slideInHorizontally(initialOffsetX = { 1000 }) + fadeIn()
+        },
+        exitTransition = {
+            slideOutHorizontally(targetOffsetX = { -1000 }) + fadeOut()
+        }
     ) {
         composable("product_list") {
             ProductScreen(
