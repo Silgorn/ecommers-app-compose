@@ -1,4 +1,4 @@
-package com.grizzlyfungames.ecommersappcompose.ui.profile
+package com.grizzlyfungames.ecommersappcompose.ui.profile.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding

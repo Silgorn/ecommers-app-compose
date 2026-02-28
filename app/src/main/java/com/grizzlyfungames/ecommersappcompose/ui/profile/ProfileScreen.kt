@@ -31,6 +31,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.grizzlyfungames.ecommersappcompose.domain.model.UserProfile
+import com.grizzlyfungames.ecommersappcompose.ui.profile.components.ProfileHeader
+import com.grizzlyfungames.ecommersappcompose.ui.profile.components.StatsSection
 
 @Composable
 fun ProfileScreen() {

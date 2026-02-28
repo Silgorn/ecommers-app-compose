@@ -43,7 +43,7 @@ fun ProductGrid(
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
             state = gridState,
-            contentPadding = PaddingValues(8.dp),
+            contentPadding = PaddingValues(),
         ) {
             if (isLoading && products.itemCount == 0) {
                 items(10) { ProductShimmerItem() }

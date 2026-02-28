@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.grizzlyfungames.ecommersappcompose.data.local.AppDatabase
 import com.grizzlyfungames.ecommersappcompose.data.local.entity.ProductEntity
+import com.grizzlyfungames.ecommersappcompose.domain.repository.CartRepository
 import com.grizzlyfungames.ecommersappcompose.domain.repository.FavoritesRepository
 import com.grizzlyfungames.ecommersappcompose.domain.repository.ProductRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,6 +19,7 @@ class ProductDetailViewModel @Inject constructor(
     private val db: AppDatabase,
     private val productRepository: ProductRepository,
     private val favoriteRepository: FavoritesRepository,
+    private val cartRepository: CartRepository,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -40,4 +42,9 @@ class ProductDetailViewModel @Inject constructor(
         }
     }
 
+    fun addToCart(product: ProductEntity) {
+        viewModelScope.launch {
+            cartRepository.addToCart(product)
+        }
+    }
 }

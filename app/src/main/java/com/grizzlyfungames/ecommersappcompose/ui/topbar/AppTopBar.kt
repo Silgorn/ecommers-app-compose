@@ -8,6 +8,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import com.grizzlyfungames.ecommersappcompose.domain.util.SortOrder
 import com.grizzlyfungames.ecommersappcompose.ui.products.ProductsViewModel
+import com.grizzlyfungames.ecommersappcompose.ui.topbar.components.SortDropDownMenu
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

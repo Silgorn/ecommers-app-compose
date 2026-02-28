@@ -1,8 +1,10 @@
 package com.grizzlyfungames.ecommersappcompose.di
 
+import com.grizzlyfungames.ecommersappcompose.data.repository.CartRepositoryImpl
 import com.grizzlyfungames.ecommersappcompose.data.repository.CategoryRepositoryImpl
 import com.grizzlyfungames.ecommersappcompose.data.repository.FavoritesRepositoryImpl
 import com.grizzlyfungames.ecommersappcompose.data.repository.ProductRepositoryImpl
+import com.grizzlyfungames.ecommersappcompose.domain.repository.CartRepository
 import com.grizzlyfungames.ecommersappcompose.domain.repository.CategoryRepository
 import com.grizzlyfungames.ecommersappcompose.domain.repository.FavoritesRepository
 import com.grizzlyfungames.ecommersappcompose.domain.repository.ProductRepository
@@ -33,4 +35,10 @@ abstract class RepositoryModule {
     abstract fun bindFavoritesRepository(
         favoritesRepositoryImpl: FavoritesRepositoryImpl
     ): FavoritesRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindCartRepository(
+        cartRepositoryImpl: CartRepositoryImpl
+    ): CartRepository
 }

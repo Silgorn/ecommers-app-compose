@@ -4,13 +4,9 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -19,6 +15,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.grizzlyfungames.ecommersappcompose.ui.cart.CartScreen
 import com.grizzlyfungames.ecommersappcompose.ui.details.ProductDetailScreen
 import com.grizzlyfungames.ecommersappcompose.ui.favorites.FavoriteScreen
 import com.grizzlyfungames.ecommersappcompose.ui.favorites.FavoritesViewModel
@@ -72,12 +69,7 @@ fun AppNavigation(navController: NavHostController, paddingValues: PaddingValues
             )
         }
         composable("cart") {
-            Box(Modifier.fillMaxSize()) {
-                Text(
-                    "Cart",
-                    Modifier.align(Alignment.Center)
-                )
-            }
+            CartScreen()
         }
         composable("profile") {
             ProfileScreen()
