@@ -1,5 +1,7 @@
 package com.grizzlyfungames.ecommersappcompose.ui.products
 
+import android.annotation.SuppressLint
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,10 +14,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.grizzlyfungames.ecommersappcompose.ui.MainViewModel
 import com.grizzlyfungames.ecommersappcompose.ui.products.components.CategoryChips
 import com.grizzlyfungames.ecommersappcompose.ui.products.components.ProductGrid
 import com.grizzlyfungames.ecommersappcompose.ui.products.components.SearchBar
@@ -26,6 +30,7 @@ import kotlinx.coroutines.yield
 @Composable
 fun ProductScreen(
     viewModel: ProductsViewModel = hiltViewModel(),
+    @SuppressLint("ContextCastToActivity") mainViewModel: MainViewModel = hiltViewModel(LocalContext.current as ComponentActivity),
     onProductClick: (Int) -> Unit
 ) {
     val products = viewModel.products.collectAsLazyPagingItems()
@@ -75,10 +80,14 @@ fun ProductScreen(
                 products = products,
                 gridState = gridState,
                 onProductClick = onProductClick,
-                onFavoriteToggle = { products ->
-                    viewModel.onFavoriteToggle(
-                        product = products
-                    )
+                onFavoriteToggle = { product ->
+                    viewModel.onFavoriteToggle(product)
+                    val message = if (product.isFavorite) {
+                        "Removed from Favorites"
+                    } else {
+                        "${product.title} added to Favorites"
+                    }
+                    mainViewModel.showMessage(message)
                 }
             )
         }

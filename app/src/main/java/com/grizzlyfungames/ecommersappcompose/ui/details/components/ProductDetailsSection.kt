@@ -84,63 +84,36 @@ fun ProductDetailsSection(
 @Composable
 
 fun BadgeItem(
-
     icon: ImageVector,
-
     text: String,
-
     subText: String? = null,
-
     color: Color = MaterialTheme.colorScheme.surfaceVariant
-
 ) {
 
     Surface(
-
         color = color,
-
         shape = RoundedCornerShape(8.dp)
-
     ) {
-
         Row(
-
             modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
-
             verticalAlignment = Alignment.CenterVertically
-
         ) {
-
             Icon(
-
                 icon,
-
                 contentDescription = null,
-
                 modifier = Modifier.size(14.dp),
-
                 tint = MaterialTheme.colorScheme.onPrimary
-
             )
-
             Spacer(Modifier.width(4.dp))
-
             Text(
-
                 text = text,
-
                 style = MaterialTheme.typography.labelLarge,
-
                 fontWeight = FontWeight.Bold
-
             )
 
             if (subText != null) {
-
                 Spacer(Modifier.width(4.dp))
-
                 Text(subText, style = MaterialTheme.typography.labelSmall, color = Color.Gray)
-
             }
 
         }

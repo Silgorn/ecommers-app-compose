@@ -5,10 +5,13 @@ import androidx.lifecycle.viewModelScope
 import com.grizzlyfungames.ecommersappcompose.domain.repository.CartRepository
 import com.grizzlyfungames.ecommersappcompose.domain.repository.FavoritesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -16,6 +19,9 @@ class MainViewModel @Inject constructor(
     private val favoriteRepository: FavoritesRepository,
     private val cartRepository: CartRepository
 ) : ViewModel() {
+
+    private val _snackbarEvent = MutableSharedFlow<String?>()
+    val snackbarEvent = _snackbarEvent.asSharedFlow()
 
     val favoritesCount: StateFlow<Int> = favoriteRepository.getFavoriteIds()
         .map { it.size }
@@ -32,4 +38,16 @@ class MainViewModel @Inject constructor(
             started = SharingStarted.WhileSubscribed(5000),
             initialValue = 0
         )
+
+    fun showMessage(message: String) {
+        viewModelScope.launch {
+            _snackbarEvent.emit(message)
+        }
+    }
+
+    fun onSnackbarShown() {
+        viewModelScope.launch {
+            _snackbarEvent.emit(null)
+        }
+    }
 }

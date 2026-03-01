@@ -1,5 +1,7 @@
 package com.grizzlyfungames.ecommersappcompose.ui.details
 
+import android.annotation.SuppressLint
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,7 +14,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.grizzlyfungames.ecommersappcompose.ui.MainViewModel
 import com.grizzlyfungames.ecommersappcompose.ui.details.components.AddToCartBottomBar
 import com.grizzlyfungames.ecommersappcompose.ui.details.components.ProductDetailsSection
 import com.grizzlyfungames.ecommersappcompose.ui.details.components.ProductImageCarousel
@@ -20,14 +24,18 @@ import com.grizzlyfungames.ecommersappcompose.ui.details.components.ProductImage
 @Composable
 fun ProductDetailScreen(
     onBackClick: () -> Unit,
-    viewModel: ProductDetailViewModel = hiltViewModel()
+    viewModel: ProductDetailViewModel = hiltViewModel(),
+    @SuppressLint("ContextCastToActivity") mainViewModel: MainViewModel = hiltViewModel(LocalContext.current as ComponentActivity),
 ) {
     val product by viewModel.productState.collectAsState()
-
     Scaffold(
         bottomBar = {
             product?.let { currentProduct ->
-                AddToCartBottomBar(onAddToCartClick = { viewModel.addToCart(currentProduct) })
+                AddToCartBottomBar(onAddToCartClick = {
+                    viewModel.addToCart(currentProduct)
+                    val message = "${currentProduct.title} added to Cart"
+                    mainViewModel.showMessage(message)
+                })
             }
         }
     ) { padding ->
@@ -43,8 +51,14 @@ fun ProductDetailScreen(
                     images = currentProduct.images,
                     onBackClick = onBackClick,
                     isFavorite = currentProduct.isFavorite,
-                    onFavoriteClick = {
+                    onFavoriteToggle = {
                         viewModel.toggleFavorite(currentProduct)
+                        val message = if (currentProduct.isFavorite) {
+                            "Removed from Favorites"
+                        } else {
+                            "${currentProduct.title} added to Favorites"
+                        }
+                        mainViewModel.showMessage(message)
                     },
                     onShareClick = { /* TODO */ }
                 )

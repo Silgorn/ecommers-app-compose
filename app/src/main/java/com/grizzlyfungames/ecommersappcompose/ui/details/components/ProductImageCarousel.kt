@@ -21,7 +21,7 @@ fun ProductImageCarousel(
     images: List<String>,
     isFavorite: Boolean,
     onBackClick: () -> Unit,
-    onFavoriteClick: () -> Unit,
+    onFavoriteToggle: () -> Unit,
     onShareClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -50,7 +50,7 @@ fun ProductImageCarousel(
         TopActionButtons(
             isFavorite = isFavorite,
             onBackClick = onBackClick,
-            onFavoriteClick = onFavoriteClick,
+            onFavoriteClick = onFavoriteToggle,
             onShareClick = onShareClick,
             modifier = Modifier.align(Alignment.TopCenter)
         )
