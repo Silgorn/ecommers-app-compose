@@ -62,7 +62,7 @@ fun AppBottomBar(navController: NavController, favoritesCount: Int, cartItemsCou
                                 badge = {
                                     if (favoritesCount > 0 && !isSelected) {
                                         Badge(
-                                            containerColor = MaterialTheme.colorScheme.error,
+                                            containerColor = MaterialTheme.colorScheme.secondary,
                                             contentColor = Color.White
                                         ) {
                                             Text(if (favoritesCount > 99) "99+" else favoritesCount.toString())
@@ -82,7 +82,7 @@ fun AppBottomBar(navController: NavController, favoritesCount: Int, cartItemsCou
                                 badge = {
                                     if (cartItemsCount > 0 && !isSelected) {
                                         Badge(
-                                            containerColor = MaterialTheme.colorScheme.error,
+                                            containerColor = MaterialTheme.colorScheme.secondary,
                                             contentColor = Color.White
                                         ) {
                                             Text(if (cartItemsCount > 99) "99+" else cartItemsCount.toString())

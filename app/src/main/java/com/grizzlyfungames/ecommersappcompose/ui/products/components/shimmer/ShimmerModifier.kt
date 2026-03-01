@@ -5,6 +5,7 @@ import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -19,21 +20,28 @@ import androidx.compose.ui.unit.IntSize
 
 fun Modifier.shimmerEffect(): Modifier = composed {
     var size by remember { mutableStateOf(IntSize.Zero) }
+
+    // Определяем базовые цвета в зависимости от темы
+    val isDark = isSystemInDarkTheme()
+    val baseColor = if (isDark) Color(0xFF1A1A1A) else Color(0xFFEBEBF4)
+    val highlightColor = if (isDark) Color(0xFF2C2C2C) else Color(0xFFF4F4F4)
+
     val transition = rememberInfiniteTransition(label = "shimmer")
     val startOffsetX by transition.animateFloat(
         initialValue = -2 * size.width.toFloat(),
         targetValue = 2 * size.width.toFloat(),
         animationSpec = infiniteRepeatable(
-            animation = tween(1000)
-        ), label = "shimmerOffset"
+            animation = tween(1500) // 1.5 сек обычно приятнее для глаз, чем 1 сек
+        ),
+        label = "shimmerOffset"
     )
 
     background(
         brush = Brush.linearGradient(
             colors = listOf(
-                Color(0xFFEBEBF4),
-                Color(0xFFF4F4F4),
-                Color(0xFFEBEBF4),
+                baseColor,
+                highlightColor,
+                baseColor,
             ),
             start = Offset(startOffsetX, 0f),
             end = Offset(startOffsetX + size.width.toFloat(), size.height.toFloat())

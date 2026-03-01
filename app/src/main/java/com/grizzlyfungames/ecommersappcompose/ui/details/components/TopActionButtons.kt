@@ -16,6 +16,7 @@ import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -38,7 +39,7 @@ fun TopActionButtons(
         IconButton(
             onClick = onBackClick,
             modifier = Modifier
-                .background(Color.White, CircleShape)
+                .background(MaterialTheme.colorScheme.surface, CircleShape)
                 .size(40.dp)
         ) {
             Icon(Icons.AutoMirrored.Filled.KeyboardArrowLeft, contentDescription = "Back")
@@ -48,20 +49,20 @@ fun TopActionButtons(
             IconButton(
                 onClick = onFavoriteClick,
                 modifier = Modifier
-                    .background(Color.White, CircleShape)
+                    .background(MaterialTheme.colorScheme.surface, CircleShape)
                     .size(40.dp)
             ) {
                 Icon(
                     if (isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
                     contentDescription = "Favorite",
-                    tint = if (isFavorite) Color.Red else Color.Gray
+                    tint = if (isFavorite) Color.Red else MaterialTheme.colorScheme.secondary
                 )
             }
             Spacer(Modifier.width(8.dp))
             IconButton(
                 onClick = onShareClick,
                 modifier = Modifier
-                    .background(Color.White, CircleShape)
+                    .background(MaterialTheme.colorScheme.surface, CircleShape)
                     .size(40.dp)
             ) {
                 Icon(Icons.Default.Share, contentDescription = "Share")

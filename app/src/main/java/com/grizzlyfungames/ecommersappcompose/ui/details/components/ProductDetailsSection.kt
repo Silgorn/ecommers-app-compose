@@ -38,7 +38,7 @@ fun ProductDetailsSection(
     Surface(
         modifier = modifier.fillMaxSize(),
         shape = RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp),
-        color = Color.White
+        color = MaterialTheme.colorScheme.surface
     ) {
         Column(modifier = Modifier.padding(20.dp)) {
             Text(
@@ -74,7 +74,7 @@ fun ProductDetailsSection(
             Text(
                 text = description,
                 style = MaterialTheme.typography.bodyMedium,
-                color = Color.DarkGray,
+                //  color = Color.DarkGray,
                 lineHeight = 20.sp
             )
         }
@@ -113,7 +113,10 @@ fun BadgeItem(
 
             if (subText != null) {
                 Spacer(Modifier.width(4.dp))
-                Text(subText, style = MaterialTheme.typography.labelSmall, color = Color.Gray)
+                Text(
+                    subText,
+                    style = MaterialTheme.typography.labelSmall,
+                )
             }
 
         }

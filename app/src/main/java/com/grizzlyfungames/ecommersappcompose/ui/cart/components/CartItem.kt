@@ -84,7 +84,7 @@ fun CartItem(
             modifier = modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp, vertical = 8.dp),
-            colors = CardDefaults.cardColors(containerColor = Color.White),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
             shape = RoundedCornerShape(16.dp)
         ) {
             Row(
@@ -134,7 +134,10 @@ fun CartItem(
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
                             modifier = Modifier
-                                .background(Color(0xFFF5F5F5), RoundedCornerShape(20.dp))
+                                .background(
+                                    MaterialTheme.colorScheme.primary,
+                                    RoundedCornerShape(20.dp)
+                                )
                                 .padding(horizontal = 4.dp, vertical = 2.dp)
                         ) {
                             IconButton(
@@ -144,7 +147,8 @@ fun CartItem(
                                 Icon(
                                     imageVector = Icons.Default.Remove,
                                     contentDescription = null,
-                                    modifier = Modifier.size(16.dp)
+                                    tint = Color.DarkGray,
+                                    modifier = Modifier.size(16.dp),
                                 )
                             }
 
@@ -152,6 +156,7 @@ fun CartItem(
                                 text = item.quantity.toString(),
                                 modifier = Modifier.padding(horizontal = 8.dp),
                                 style = MaterialTheme.typography.bodyMedium,
+                                color = Color.DarkGray,
                                 fontWeight = FontWeight.SemiBold
                             )
 
@@ -162,6 +167,7 @@ fun CartItem(
                                 Icon(
                                     imageVector = Icons.Default.Add,
                                     contentDescription = null,
+                                    tint = Color.DarkGray,
                                     modifier = Modifier.size(16.dp)
                                 )
                             }

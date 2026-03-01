@@ -12,6 +12,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -25,7 +28,7 @@ import com.grizzlyfungames.ecommersappcompose.ui.products.components.ProductGrid
 import com.grizzlyfungames.ecommersappcompose.ui.products.components.SearchBar
 import com.grizzlyfungames.ecommersappcompose.ui.topbar.AppTopBar
 import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.yield
+import kotlinx.coroutines.flow.first
 
 @Composable
 fun ProductScreen(
@@ -41,13 +44,23 @@ fun ProductScreen(
     val gridState = rememberLazyGridState()
 
 
+    var lastCategory by remember { mutableStateOf(selectedCategory) }
+    var lastQuery by remember { mutableStateOf(searchQuery) }
+    var lastSort by remember { mutableStateOf(currentSort) }
+
     LaunchedEffect(selectedCategory, searchQuery, currentSort) {
-        snapshotFlow { products.loadState.refresh }
-            .filter { it is LoadState.NotLoading }
-            .collect {
-                yield()
-                gridState.animateScrollToItem(0)
-            }
+        if (selectedCategory != lastCategory || searchQuery != lastQuery || currentSort != lastSort) {
+
+            lastCategory = selectedCategory
+            lastQuery = searchQuery
+            lastSort = currentSort
+
+            snapshotFlow { products.loadState.refresh }
+                .filter { it is LoadState.NotLoading }
+                .first()
+
+            gridState.scrollToItem(0)
+        }
     }
 
     Column(modifier = Modifier.fillMaxSize()) {

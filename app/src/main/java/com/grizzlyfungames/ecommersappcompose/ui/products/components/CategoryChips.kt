@@ -14,6 +14,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.grizzlyfungames.ecommersappcompose.data.local.entity.CategoryEntity
 
@@ -32,7 +33,8 @@ fun CategoryChips(
                 shape = CircleShape,
                 colors = FilterChipDefaults.filterChipColors(
                     selectedContainerColor = MaterialTheme.colorScheme.primary,
-
+                    selectedLabelColor = Color.DarkGray,
+                    selectedLeadingIconColor = Color.DarkGray,
                     containerColor = MaterialTheme.colorScheme.surfaceVariant,
                     labelColor = MaterialTheme.colorScheme.onSurfaceVariant
                 ),
@@ -55,7 +57,8 @@ fun CategoryChips(
                 shape = CircleShape,
                 colors = FilterChipDefaults.filterChipColors(
                     selectedContainerColor = MaterialTheme.colorScheme.primary,
-
+                    selectedLabelColor = Color.DarkGray,
+                    selectedLeadingIconColor = Color.DarkGray,
                     containerColor = MaterialTheme.colorScheme.surfaceVariant,
                     labelColor = MaterialTheme.colorScheme.onSurfaceVariant
                 ),
