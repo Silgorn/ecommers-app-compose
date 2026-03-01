@@ -51,14 +51,11 @@ class ProductsViewModel @Inject constructor(
         _sortOrder,
         favoritesRepository.getFavoriteIds()
     ) { query: String?, category: String?, sort: SortOrder, favIds: List<Int> ->
-        // Создаем структуру для передачи параметров
         val favSet = favIds.toSet()
 
-        // Возвращаем поток PagingData
         productRepository.getProducts(query, category, sort)
             .map { pagingData: PagingData<ProductEntity> ->
                 pagingData.map { product: ProductEntity ->
-                    // Явно копируем состояние
                     product.copy(isFavorite = favSet.contains(product.id))
                 }
             }
@@ -67,14 +64,10 @@ class ProductsViewModel @Inject constructor(
 
     fun onSearchQueryChanged(query: String?) {
         _searchQuery.value = if (query.isNullOrBlank()) null else query
-
-        // if (query != null) _selectedCategory.value = null
     }
 
     fun onCategorySelected(categorySlug: String?) {
         _selectedCategory.value = categorySlug
-
-        //if (categorySlug != null) _searchQuery.value = null
     }
 
     fun onSortOrderChanged(newOrder: SortOrder) {
@@ -83,8 +76,6 @@ class ProductsViewModel @Inject constructor(
 
     fun onFavoriteToggle(product: ProductEntity) {
         viewModelScope.launch {
-            // Вызываем метод репозитория напрямую
-            // isCurrentlyFavorite берем из самого объекта product
             favoritesRepository.toggleFavorite(product, product.isFavorite)
         }
     }

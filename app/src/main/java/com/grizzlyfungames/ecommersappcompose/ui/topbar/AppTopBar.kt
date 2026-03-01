@@ -1,5 +1,6 @@
 package com.grizzlyfungames.ecommersappcompose.ui.topbar
 
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -30,6 +31,7 @@ fun AppTopBar(
                 fontWeight = FontWeight.Bold
             )
         },
+        windowInsets = WindowInsets(0, 0, 0, 0),
         navigationIcon = {
             if (onBackClick != null) {
                 IconButton(onClick = onBackClick) {

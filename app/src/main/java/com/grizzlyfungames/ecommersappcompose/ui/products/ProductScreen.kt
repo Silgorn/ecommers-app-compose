@@ -75,7 +75,7 @@ fun ProductScreen(
                 .padding(horizontal = 16.dp)
         ) {
 
-            Spacer(modifier = Modifier.height(8.dp))
+            //  Spacer(modifier = Modifier.height(8.dp))
 
             SearchBar(onSearch = { viewModel.onSearchQueryChanged(it) })
 
