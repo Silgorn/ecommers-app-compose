@@ -2,10 +2,13 @@ package com.grizzlyfungames.ecommersappcompose.navigation
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material.icons.outlined.FavoriteBorder
+import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.outlined.ShoppingCart
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.Icon
@@ -52,6 +55,7 @@ fun AppBottomBar(navController: NavController, favoritesCount: Int) {
                 },
                 label = { Text(item.label) },
                 icon = {
+                    val displayIcon = if (isSelected) item.selectedIcon else item.icon
                     if (item is BottomNavItem.Favorites) {
                         BadgedBox(
                             badge = {
@@ -66,12 +70,12 @@ fun AppBottomBar(navController: NavController, favoritesCount: Int) {
                             }
                         ) {
                             Icon(
-                                imageVector = if (isSelected) Icons.Filled.Favorite else item.icon,
+                                imageVector = displayIcon,
                                 contentDescription = item.label
                             )
                         }
                     } else {
-                        Icon(item.icon, contentDescription = item.label)
+                        Icon(imageVector = displayIcon, contentDescription = item.label)
                     }
                 },
                 colors = NavigationBarItemDefaults.colors(
@@ -87,10 +91,22 @@ fun AppBottomBar(navController: NavController, favoritesCount: Int) {
 sealed class BottomNavItem(
     val route: String,
     val icon: ImageVector,
+    val selectedIcon: ImageVector,
     val label: String
 ) {
-    object Home : BottomNavItem("product_list", Icons.Default.Home, "Home")
-    object Favorites : BottomNavItem("favorites", Icons.Default.FavoriteBorder, "Favorites")
-    object Cart : BottomNavItem("cart", Icons.Default.ShoppingCart, "Cart")
-    object Profile : BottomNavItem("profile", Icons.Default.Person, "Profile")
+    object Home : BottomNavItem(
+        "product_list", Icons.Outlined.Home, Icons.Filled.Home, "Home"
+    )
+
+    object Favorites : BottomNavItem(
+        "favorites", Icons.Outlined.FavoriteBorder, Icons.Filled.Favorite, "Favorites"
+    )
+
+    object Cart : BottomNavItem(
+        "cart", Icons.Outlined.ShoppingCart, Icons.Filled.ShoppingCart, "Cart"
+    )
+
+    object Profile : BottomNavItem(
+        "profile", Icons.Outlined.Person, Icons.Filled.Person, "Profile"
+    )
 }

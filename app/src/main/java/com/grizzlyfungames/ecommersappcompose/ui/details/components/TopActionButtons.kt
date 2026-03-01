@@ -54,7 +54,7 @@ fun TopActionButtons(
                 Icon(
                     if (isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
                     contentDescription = "Favorite",
-                    tint = Color.Red
+                    tint = if (isFavorite) Color.Red else Color.Gray
                 )
             }
             Spacer(Modifier.width(8.dp))

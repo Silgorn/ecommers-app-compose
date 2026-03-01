@@ -37,7 +37,6 @@ import com.grizzlyfungames.ecommersappcompose.data.local.entity.ProductEntity
 @Composable
 fun ProductItem(
     product: ProductEntity,
-    //  isFavorite: Boolean = false,
     onFavoriteClick: () -> Unit,
     onClick: () -> Unit
 ) {

@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.grizzlyfungames.ecommersappcompose.ui.cart.components.CartItem
 import com.grizzlyfungames.ecommersappcompose.ui.products.components.EmptyStateItem
+import com.grizzlyfungames.ecommersappcompose.ui.topbar.AppTopBar
 
 @Composable
 fun CartScreen(
@@ -39,12 +40,7 @@ fun CartScreen(
             .fillMaxSize()
             .background(Color.White)
     ) {
-        Text(
-            text = "My Cart",
-            style = MaterialTheme.typography.headlineMedium,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(start = 16.dp, top = 16.dp, bottom = 8.dp)
-        )
+        AppTopBar("Cart")
 
         if (cartItems.isEmpty()) {
             EmptyStateItem(message = "Your cart is empty")

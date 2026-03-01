@@ -18,7 +18,7 @@ import com.grizzlyfungames.ecommersappcompose.domain.util.SortOrder
 
 @Composable
 fun SortDropDownMenu(
-    currentSort: SortOrder,
+    currentSort: SortOrder?,
     onSortSelected: (SortOrder) -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }

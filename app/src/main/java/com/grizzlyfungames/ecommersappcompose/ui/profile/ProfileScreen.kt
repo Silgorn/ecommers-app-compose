@@ -47,7 +47,7 @@ fun ProfileScreen() {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
+            .background(MaterialTheme.colorScheme.surface)
     ) {
         item {
             ProfileHeader(user)

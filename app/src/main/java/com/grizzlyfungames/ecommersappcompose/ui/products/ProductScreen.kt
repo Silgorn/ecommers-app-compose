@@ -46,7 +46,11 @@ fun ProductScreen(
     }
 
     Column(modifier = Modifier.fillMaxSize()) {
-        AppTopBar(viewModel, currentSort)
+        AppTopBar(
+            titleText = "Shop",
+            currentSort = currentSort,
+            onSortSelected = { viewModel.onSortOrderChanged(it) }
+        )
         Column(
             modifier = Modifier
                 .fillMaxSize()
