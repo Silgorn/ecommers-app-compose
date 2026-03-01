@@ -10,16 +10,17 @@ import com.grizzlyfungames.ecommersappcompose.data.local.AppDatabase
 import com.grizzlyfungames.ecommersappcompose.data.local.entity.ProductEntity
 import com.grizzlyfungames.ecommersappcompose.data.local.entity.RemoteKeysEntity
 import com.grizzlyfungames.ecommersappcompose.data.mapper.toEntity
+import com.grizzlyfungames.ecommersappcompose.domain.util.SortOrder
 
 @OptIn(ExperimentalPagingApi::class)
 class ProductRemoteMediator(
     private val api: ProductApi,
     private val db: AppDatabase,
     private val searchQuery: String? = null,
-    private val categoryName: String? = null
-
+    private val categoryName: String? = null,
+    private val sortOrder: SortOrder
 ) : RemoteMediator<Int, ProductEntity>() {
-    @OptIn(ExperimentalPagingApi::class)
+
     override suspend fun load(
         loadType: LoadType,
         state: PagingState<Int, ProductEntity>
@@ -38,22 +39,47 @@ class ProductRemoteMediator(
                     nextKey
                 }
             }
+
             val limit = state.config.pageSize
+
+            val sortBy = when (sortOrder) {
+                SortOrder.LOW_PRICE, SortOrder.HIGH_PRICE -> "price"
+                else -> null
+            }
+            val order = when (sortOrder) {
+                SortOrder.LOW_PRICE -> "asc"
+                SortOrder.HIGH_PRICE -> "desc"
+                else -> null
+            }
+
             val response = when {
                 !searchQuery.isNullOrBlank() -> {
-                    api.searchProducts(query = searchQuery, limit = limit, skip = skip)
+                    api.searchProducts(
+                        query = searchQuery,
+                        limit = limit,
+                        skip = skip,
+                        sortBy = sortBy,
+                        order = order
+                    )
                 }
 
                 !categoryName.isNullOrBlank() -> {
                     api.getProductsByCategory(
                         categoryName = categoryName,
                         limit = limit,
-                        skip = skip
+                        skip = skip,
+                        sortBy = sortBy,
+                        order = order
                     )
                 }
 
                 else -> {
-                    api.getProducts(limit = limit, skip = skip)
+                    api.getProducts(
+                        limit = limit,
+                        skip = skip,
+                        sortBy = sortBy,
+                        order = order
+                    )
                 }
             }
 

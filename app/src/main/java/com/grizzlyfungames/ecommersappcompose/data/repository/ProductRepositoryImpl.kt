@@ -23,10 +23,11 @@ class ProductRepositoryImpl @Inject constructor(
     override fun getProducts(query: String?, category: String?, sort: SortOrder) = Pager(
         config = PagingConfig(pageSize = 20),
         remoteMediator = ProductRemoteMediator(
-            api,
-            db,
+            api = api,
+            db = db,
             searchQuery = query,
-            categoryName = category
+            categoryName = category,
+            sortOrder = sort
         ),
         pagingSourceFactory = {
             when (sort) {
