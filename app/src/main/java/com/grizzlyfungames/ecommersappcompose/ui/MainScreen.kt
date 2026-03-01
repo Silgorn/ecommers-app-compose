@@ -1,5 +1,6 @@
 package com.grizzlyfungames.ecommersappcompose.ui
 
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -23,6 +24,7 @@ fun MainScreen(
     val shouldShowBottomBar = currentRoute in bottomBarScreens
 
     Scaffold(
+        containerColor = MaterialTheme.colorScheme.surface,
         bottomBar = {
             if (shouldShowBottomBar) {
                 AppBottomBar(navController, favoritesCount)

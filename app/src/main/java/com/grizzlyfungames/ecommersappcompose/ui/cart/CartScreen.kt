@@ -2,7 +2,6 @@ package com.grizzlyfungames.ecommersappcompose.ui.cart
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -13,7 +12,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -27,6 +25,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.grizzlyfungames.ecommersappcompose.ui.cart.components.CartItem
+import com.grizzlyfungames.ecommersappcompose.ui.products.components.EmptyStateItem
 
 @Composable
 fun CartScreen(
@@ -48,18 +47,7 @@ fun CartScreen(
         )
 
         if (cartItems.isEmpty()) {
-            Box(
-                modifier = Modifier
-                    .weight(1f)
-                    .fillMaxWidth(),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = "Your cart is empty",
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = Color.Gray
-                )
-            }
+            EmptyStateItem(message = "Your cart is empty")
         } else {
             LazyColumn(
                 modifier = Modifier.weight(1f),
@@ -80,8 +68,8 @@ fun CartScreen(
             }
 
             Surface(
-                shadowElevation = 16.dp,
-                color = Color.White,
+                //  shadowElevation = 16.dp,
+                color = MaterialTheme.colorScheme.surfaceVariant,
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Row(
@@ -98,7 +86,7 @@ fun CartScreen(
                             style = MaterialTheme.typography.bodyMedium
                         )
                         Text(
-                            text = "£${"%.2f".format(totalPrice)}",
+                            text = "$${"%.2f".format(totalPrice)}",
                             style = MaterialTheme.typography.titleLarge,
                             fontWeight = FontWeight.Bold
                         )
@@ -107,12 +95,13 @@ fun CartScreen(
                     Button(
                         onClick = { },
                         shape = RoundedCornerShape(12.dp),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color.Black
-                        )
+//                        colors = ButtonDefaults.buttonColors(
+//                            containerColor = MaterialTheme.colorScheme.onPrimary
+//                        )
                     ) {
                         Text(
                             text = "Checkout",
+                            //  color = MaterialTheme.colorScheme.surface,
                             modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
                             fontWeight = FontWeight.SemiBold
                         )

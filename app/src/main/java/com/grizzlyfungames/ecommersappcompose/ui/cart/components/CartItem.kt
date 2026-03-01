@@ -126,7 +126,7 @@ fun CartItem(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = "£${item.price}",
+                            text = "$${item.price}",
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Bold
                         )
