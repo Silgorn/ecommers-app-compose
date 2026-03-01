@@ -19,6 +19,7 @@ fun MainScreen(
     val currentRoute = navBackStackEntry?.destination?.route
 
     val favoritesCount by viewModel.favoritesCount.collectAsState()
+    val cartItemsCount by viewModel.cartItemsCount.collectAsState()
 
     val bottomBarScreens = listOf("product_list", "favorites", "cart", "profile")
     val shouldShowBottomBar = currentRoute in bottomBarScreens
@@ -27,7 +28,7 @@ fun MainScreen(
         containerColor = MaterialTheme.colorScheme.surface,
         bottomBar = {
             if (shouldShowBottomBar) {
-                AppBottomBar(navController, favoritesCount)
+                AppBottomBar(navController, favoritesCount, cartItemsCount)
             }
         },
     ) { paddingValues ->

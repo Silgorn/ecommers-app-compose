@@ -25,7 +25,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 
 @Composable
-fun AppBottomBar(navController: NavController, favoritesCount: Int) {
+fun AppBottomBar(navController: NavController, favoritesCount: Int, cartItemsCount: Int) {
     val items = listOf(
         BottomNavItem.Home,
         BottomNavItem.Favorites,
@@ -56,26 +56,50 @@ fun AppBottomBar(navController: NavController, favoritesCount: Int) {
                 label = { Text(item.label) },
                 icon = {
                     val displayIcon = if (isSelected) item.selectedIcon else item.icon
-                    if (item is BottomNavItem.Favorites) {
-                        BadgedBox(
-                            badge = {
-                                if (favoritesCount > 0 && !isSelected) {
-                                    Badge(
-                                        containerColor = MaterialTheme.colorScheme.error,
-                                        contentColor = Color.White
-                                    ) {
-                                        Text(if (favoritesCount > 99) "99+" else favoritesCount.toString())
+                    when (item) {
+                        is BottomNavItem.Favorites -> {
+                            BadgedBox(
+                                badge = {
+                                    if (favoritesCount > 0 && !isSelected) {
+                                        Badge(
+                                            containerColor = MaterialTheme.colorScheme.error,
+                                            contentColor = Color.White
+                                        ) {
+                                            Text(if (favoritesCount > 99) "99+" else favoritesCount.toString())
+                                        }
                                     }
                                 }
+                            ) {
+                                Icon(
+                                    imageVector = displayIcon,
+                                    contentDescription = item.label
+                                )
                             }
-                        ) {
-                            Icon(
-                                imageVector = displayIcon,
-                                contentDescription = item.label
-                            )
                         }
-                    } else {
-                        Icon(imageVector = displayIcon, contentDescription = item.label)
+
+                        is BottomNavItem.Cart -> {
+                            BadgedBox(
+                                badge = {
+                                    if (cartItemsCount > 0 && !isSelected) {
+                                        Badge(
+                                            containerColor = MaterialTheme.colorScheme.error,
+                                            contentColor = Color.White
+                                        ) {
+                                            Text(if (cartItemsCount > 99) "99+" else cartItemsCount.toString())
+                                        }
+                                    }
+                                }
+                            ) {
+                                Icon(
+                                    imageVector = displayIcon,
+                                    contentDescription = item.label
+                                )
+                            }
+                        }
+
+                        else -> {
+                            Icon(imageVector = displayIcon, contentDescription = item.label)
+                        }
                     }
                 },
                 colors = NavigationBarItemDefaults.colors(
